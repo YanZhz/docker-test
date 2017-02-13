@@ -164,6 +164,7 @@ CMD ["catalina.sh", "run"]
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	python-dev \
 	python-pip \
+	gcc \
 	&& pip install -U ansible \
         && pip install markupsafe \
 	&& apt-get remove python-pip \
