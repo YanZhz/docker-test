@@ -6,12 +6,11 @@
 
 FROM debian:jessie
 
-RUN apt-get update \
-        && apt-get install -y --no-install-recommends \
-                ca-certificates \
-                curl \
-                wget \
-        && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		ca-certificates \
+		curl \
+		wget \
+	&& rm -rf /var/lib/apt/lists/*
 
 # A few problems with compiling Java from source:
 #  1. Oracle.  Licensing prevents us from redistributing the official JDK.
@@ -19,10 +18,10 @@ RUN apt-get update \
 #       really hairy.
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-                bzip2 \
-                unzip \
-                xz-utils \
-        && rm -rf /var/lib/apt/lists/*
+		bzip2 \
+		unzip \
+		xz-utils \
+	&& rm -rf /var/lib/apt/lists/*
 
 RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 
@@ -32,12 +31,12 @@ ENV LANG C.UTF-8
 # add a simple script that can auto-detect the appropriate JAVA_HOME value
 # based on whether the JDK or only the JRE is installed
 RUN { \
-                echo '#!/bin/sh'; \
-                echo 'set -e'; \
-                echo; \
-                echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
-        } > /usr/local/bin/docker-java-home \
-        && chmod +x /usr/local/bin/docker-java-home
+		echo '#!/bin/sh'; \
+		echo 'set -e'; \
+		echo; \
+		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
+	} > /usr/local/bin/docker-java-home \
+	&& chmod +x /usr/local/bin/docker-java-home
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre
 
@@ -49,12 +48,12 @@ ENV JAVA_DEBIAN_VERSION 8u121-b13-1~bpo8+1
 ENV CA_CERTIFICATES_JAVA_VERSION 20161107~bpo8+1
 
 RUN set -x \
-        && apt-get update \
-        && apt-get install -y \
-                openjdk-8-jre-headless="$JAVA_DEBIAN_VERSION" \
-                ca-certificates-java="$CA_CERTIFICATES_JAVA_VERSION" \
-        && rm -rf /var/lib/apt/lists/* \
-        && [ "$JAVA_HOME" = "$(docker-java-home)" ]
+	&& apt-get update \
+	&& apt-get install -y \
+		openjdk-8-jre-headless="$JAVA_DEBIAN_VERSION" \
+		ca-certificates-java="$CA_CERTIFICATES_JAVA_VERSION" \
+	&& rm -rf /var/lib/apt/lists/* \
+	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
 # see CA_CERTIFICATES_JAVA_VERSION notes above
 RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
@@ -62,7 +61,6 @@ RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
 # If you're reading this and have any feedback on how this image could be
 #   improved, please open an issue or a pull request so we can discuss it!
 # grab gosu for easy step-down from root
-
 ENV GOSU_VERSION 1.7
 RUN set -x \
         && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
@@ -117,13 +115,11 @@ RUN set -ex \
                 chown -R elasticsearch:elasticsearch "$path"; \
         done
 
-#COPY config ./config
+COPY config ./config
 
 VOLUME /usr/share/elasticsearch/data
 
-RUN ls /bin/
-COPY bin/docker-entrypoint.sh /
-
+COPY docker-entrypoint.sh /
 
 EXPOSE 9200 9300
 ENTRYPOINT ["/docker-entrypoint.sh"]
