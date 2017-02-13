@@ -117,7 +117,7 @@ RUN set -ex \
                 chown -R elasticsearch:elasticsearch "$path"; \
         done
 
-COPY config ./config
+#COPY config ./config
 
 VOLUME /usr/share/elasticsearch/data
 
