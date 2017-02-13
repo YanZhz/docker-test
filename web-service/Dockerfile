@@ -160,3 +160,10 @@ RUN set -e \
 
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
+
+RUN apt-get install -y python-dev python-pip \
+	&& pip install -U ansible \
+        && pip install markupsafe \
+	&& apt-get remove python-pip \
+        && apt-get autoremove 
+
