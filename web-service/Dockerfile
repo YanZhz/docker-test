@@ -165,8 +165,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	python-dev \
 	python-pip \
 	gcc \
-        libyaml-dev \
-	libpython2.7-dev \
+        && pip install pyyaml \
 	&& pip install -U ansible \
         && pip install markupsafe \
 	&& apt-get remove python-pip \
