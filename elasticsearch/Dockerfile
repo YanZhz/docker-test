@@ -6,13 +6,7 @@
 
 FROM debian:jessie
 
-RUN echo 'deb http://mirrors.163.com/debian jessie main non-free contrib \
-                deb http://mirrors.163.com/debian jessie-proposed-updates main contrib non-free \
-                deb-src http://mirrors.163.com/debian jessie main non-free contrib \
-                deb-src http://mirrors.163.com/debian jessie-proposed-updates main contrib non-free \
-                deb http://mirrors.163.com/debian-security jessie/updates main contrib non-free \
-                deb-src http://mirrors.163.com/debian-security jessie/updates main contrib non-free' > /etc/apt/sources.list \
-        && apt-get update \
+RUN apt-get update \
         && apt-get install -y --no-install-recommends \
                 ca-certificates \
                 curl \
