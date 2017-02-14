@@ -85,3 +85,24 @@ RUN set -e \
 
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        python-dev \
+        python-pip \
+        gcc \
+        libffi-dev \
+        libssl-dev \
+        ssh \
+        && pip install -U setuptools \
+        && pip install pyyaml \
+        && pip install -U ansible \
+        && pip install markupsafe \
+        && apt-get remove -y python-pip \
+        && apt-get -y autoremove \
+        && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir /root/.ssh/
+
+ADD ssh/id_rsa /root/.ssh/
+
+ADD ssh/id_rsa.pub /root/.ssh/
