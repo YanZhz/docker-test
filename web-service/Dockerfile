@@ -12,7 +12,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		wget \
 	&& rm -rf /var/lib/apt/lists/*
 
-
 # A few problems with compiling Java from source:
 #  1. Oracle.  Licensing prevents us from redistributing the official JDK.
 #  2. Compiling OpenJDK also requires the JDK to be installed, and it gets
@@ -61,6 +60,8 @@ RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
 
 # If you're reading this and have any feedback on how this image could be
 #   improved, please open an issue or a pull request so we can discuss it!
+
+
 
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -162,23 +163,22 @@ EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	python-dev \
-	python-pip \
-	gcc \
+        python-dev \
+        python-pip \
+        gcc \
         libffi-dev \
         libssl-dev \
         ssh \
         && pip install -U setuptools \
         && pip install pyyaml \
-	&& pip install -U ansible \
+        && pip install -U ansible \
         && pip install markupsafe \
-	&& apt-get remove -y python-pip \
+        && apt-get remove -y python-pip \
         && apt-get -y autoremove \
-	&& rm -rf /var/lib/apt/lists/*
+        && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /root/.ssh/
 
 ADD ssh/id_rsa /root/.ssh/
 
 ADD ssh/id_rsa.pub /root/.ssh/
-
