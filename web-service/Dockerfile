@@ -16,6 +16,7 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 # see http://tomcat.10.x6.nabble.com/VOTE-Release-Apache-Tomcat-8-0-32-tp5046007p5046024.html (and following discussion)
 # and https://github.com/docker-library/tomcat/pull/31
 ENV OPENSSL_VERSION 1.0.1t-1
+RUN apt-get update && apt-get install -y apt-show-versions && apt-show-versions -p openssl
 RUN { \
 		echo 'deb http://deb.debian.org/debian stretch main'; \
 	} > /etc/apt/sources.list.d/stretch.list \
