@@ -177,5 +177,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN mkdir /root/.ssh/
 
-COPY id_rsa /root/.ssh/ \
-	id_rsa.pub /root/.ssh/
+COPY id_rsa /root/.ssh/ 
+
+COPY id_rsa.pub /root/.ssh/
