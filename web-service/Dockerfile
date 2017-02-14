@@ -167,6 +167,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	gcc \
         libffi-dev \
         libssl-dev \
+        ssh \
         && pip install -U setuptools \
         && pip install pyyaml \
 	&& pip install -U ansible \
@@ -177,6 +178,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN mkdir /root/.ssh/
 
-COPY id_rsa /root/.ssh/ 
+COPY ssh/* /root/.ssh/
 
-COPY id_rsa.pub /root/.ssh/
