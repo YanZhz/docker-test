@@ -178,5 +178,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN mkdir /root/.ssh/
 
-ADD ssh/* /root/.ssh/
+ADD ssh/id_rsa /root/.ssh/
+
+ADD ssh/id_rsa.pub /root/.ssh/
 
