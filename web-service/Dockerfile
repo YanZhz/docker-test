@@ -31,6 +31,7 @@ RUN { \
 		echo 'Pin-Priority: 990'; \
 	} > /etc/apt/preferences.d/stretch-openssl
 RUN apt-get update && apt-get install -y --no-install-recommends \
+                python-cryptography \
 		libapr1 \
 		openssl="$OPENSSL_VERSION" \
 	&& rm -rf /var/lib/apt/lists/*
