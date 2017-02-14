@@ -171,7 +171,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && pip install pyyaml \
 	&& pip install -U ansible \
         && pip install markupsafe \
-	&& apt-get remove python-pip \
-        && apt-get autoremove 
+	&& apt-get remove -y python-pip \
+        && apt-get -y autoremove \
 	&& rm -rf /var/lib/apt/lists/*
 
