@@ -34,6 +34,7 @@ RUN set -x \
 		openjdk8-jre="$JAVA_ALPINE_VERSION" \
 	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
+
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
 RUN mkdir -p "$CATALINA_HOME"
@@ -134,7 +135,3 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get remove -y python-pip \
         && apt-get -y autoremove \
         && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir /root/.ssh/
-
-ADD ssh/id_rsa /root/.ssh/
