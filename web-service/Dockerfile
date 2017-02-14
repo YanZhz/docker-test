@@ -15,7 +15,7 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 # > configure: error: Your version of OpenSSL is not compatible with this version of tcnative
 # see http://tomcat.10.x6.nabble.com/VOTE-Release-Apache-Tomcat-8-0-32-tp5046007p5046024.html (and following discussion)
 # and https://github.com/docker-library/tomcat/pull/31
-ENV OPENSSL_VERSION 1.0.1t-1+deb8u5
+ENV OPENSSL_VERSION 1.1.0c-2
 RUN { \
 		echo 'deb http://deb.debian.org/debian stretch main'; \
 	} > /etc/apt/sources.list.d/stretch.list \
@@ -98,26 +98,3 @@ RUN set -e \
 
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
-
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        python-dev \
-        python-pip \
-        gcc \
-        libffi-dev \
-        libssl-dev \
-        ssh \
-        && pip install -U setuptools \
-        && pip install pyyaml \
-        && pip install -U ansible \
-        && pip install markupsafe \
-        && apt-get remove -y python-pip \
-        && apt-get -y autoremove \
-        && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir /root/.ssh/
-
-ADD ssh/id_rsa /root/.ssh/
-
-ADD ssh/id_rsa.pub /root/.ssh/
-
