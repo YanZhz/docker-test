@@ -100,9 +100,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get remove -y python-pip \
         && apt-get -y autoremove \
         && rm -rf /var/lib/apt/lists/*
-
 RUN mkdir /root/.ssh/
 
-ADD ssh/id_rsa /root/.ssh/
-
-ADD ssh/id_rsa.pub /root/.ssh/
