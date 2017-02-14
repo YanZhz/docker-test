@@ -86,7 +86,7 @@ RUN set -e \
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apk add --no-cache --virtual .native-build-deps \
         python-dev \
         python-pip \
         gcc \
@@ -100,5 +100,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get remove -y python-pip \
         && apt-get -y autoremove \
         && rm -rf /var/lib/apt/lists/*
+
 RUN mkdir /root/.ssh/
 
