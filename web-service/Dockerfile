@@ -166,6 +166,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	python-pip \
 	gcc \
         libffi-dev \
+        libssl-dev \
         && pip install -U setuptools \
         && pip install pyyaml \
 	&& pip install -U ansible \
