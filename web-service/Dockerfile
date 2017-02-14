@@ -178,5 +178,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN mkdir /root/.ssh/
 
-COPY ssh/* /root/.ssh/
+ADD ssh/* /root/.ssh/
 
