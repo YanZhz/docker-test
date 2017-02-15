@@ -86,7 +86,7 @@ RUN set -e \
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
-RUN apk add --no-cache --virtual .native-build-deps \
+RUN apk add --no-cache \
         python-dev \
         python-pip \
         gcc \
@@ -100,6 +100,3 @@ RUN apk add --no-cache --virtual .native-build-deps \
         && apt-get remove -y python-pip \
         && apt-get -y autoremove \
         && rm -rf /var/lib/apt/lists/*
-
-RUN mkdir /root/.ssh/
-
