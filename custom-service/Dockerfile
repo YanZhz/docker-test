@@ -1,4 +1,4 @@
-FROM debian:8.5
+FROM debian:jessie
 
 MAINTAINER Kamil Kwiek <kamil.kwiek@continuum.io>
 
