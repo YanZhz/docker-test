@@ -32,6 +32,7 @@ RUN { \
 	} > /etc/apt/preferences.d/stretch-openssl
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		libapr1 \
+                apt-utils \
 		openssl="$OPENSSL_VERSION" \
 	&& rm -rf /var/lib/apt/lists/*
 
