@@ -30,6 +30,7 @@ RUN apt-get install -y \
     libffi-dev \
     python-dev \
     python-pip \
+    python-cryptography \
     && /usr/bin/pip install ansible psycopg2 elasticsearch apscheduler \
     && apt-get remove -y python-pip \
     && apt-get autoremove -y
