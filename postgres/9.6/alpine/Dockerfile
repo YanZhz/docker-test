@@ -133,3 +133,8 @@ CMD ["postgres"]
 
 RUN localedef -i zh_CN -c -f UTF-8 -A /usr/share/locale/locale.alias zh_CN.UTF-8
 ENV LANG zh_CN.utf8
+
+RUN mkdir /usr/glibc-compat/lib/locale && \
+    /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 C.UTF-8 zh_CN.UTF-8 || true
+
+ENV LANG zh_CN.UTF-8
