@@ -9,7 +9,7 @@ FROM alpine:3.5
 
 # make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 # alpine doesn't require explicit locale-file generation
-ENV LANG zh_CN.UTF-8
+ENV LANG en_US.utf8
 
 RUN mkdir /docker-entrypoint-initdb.d
 
@@ -130,3 +130,6 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 5432
 CMD ["postgres"]
+
+RUN localedef -i zh_CN -c -f UTF-8 -A /usr/share/locale/locale.alias zh_CN.UTF-8
+ENV LANG zh_CN.utf8
