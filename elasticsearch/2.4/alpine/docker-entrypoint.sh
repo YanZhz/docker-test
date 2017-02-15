@@ -1,7 +1,7 @@
 #!/bin/bash
 
 set -e
-
+sleep 30
 # Add elasticsearch as command if needed
 if [ "${1:0:1}" = '-' ]; then
 	set -- elasticsearch "$@"
