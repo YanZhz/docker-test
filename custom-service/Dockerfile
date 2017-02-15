@@ -24,3 +24,11 @@ ENV PATH /opt/conda/bin:$PATH
 
 ENTRYPOINT [ "/usr/bin/tini", "--" ]
 CMD [ "/bin/bash" ]
+
+RUN apt-get install -y \
+    libpq-dev \
+    python-dev \
+    python-pip \
+    && pip install ansible psycopg2 apscheduler \
+    && apt-get remove -y python-pip \
+    && apt-get autoremove -y
