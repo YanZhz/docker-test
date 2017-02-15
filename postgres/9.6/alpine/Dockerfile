@@ -53,6 +53,7 @@ RUN set -ex \
 #		tcl-dev \
 		util-linux-dev \
 		zlib-dev \
+                localedef \
 	\
 	&& cd /usr/src/postgresql \
 # update "DEFAULT_PGSOCKET_DIR" to "/var/run/postgresql" (matching Debian)
