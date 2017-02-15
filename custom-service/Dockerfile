@@ -27,6 +27,7 @@ CMD [ "/bin/bash" ]
 
 RUN apt-get install -y \
     libpq-dev \
+    libffi-dev \
     python-dev \
     python-pip \
     && /usr/bin/pip install ansible psycopg2 elasticsearch apscheduler \
