@@ -32,5 +32,3 @@ RUN apt-get install -y \
     python-pip \
     && /usr/bin/pip install --upgrade cffi \
     && /usr/bin/pip install ansible psycopg2 elasticsearch apscheduler \
-    && apt-get remove -y python-pip \
-    && apt-get autoremove -y
