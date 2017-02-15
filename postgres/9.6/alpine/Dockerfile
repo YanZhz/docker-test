@@ -1,5 +1,5 @@
 # vim:set ft=dockerfile:
-FROM alpine:3.2
+FROM alpine:3.5
 
 # alpine includes "postgres" user/group in base install
 # /etc/passwd:22:postgres:x:70:70::/var/lib/postgresql:/bin/sh
@@ -53,7 +53,6 @@ RUN set -ex \
 #		tcl-dev \
 		util-linux-dev \
 		zlib-dev \
-                localedef \
 	\
 	&& cd /usr/src/postgresql \
 # update "DEFAULT_PGSOCKET_DIR" to "/var/run/postgresql" (matching Debian)
