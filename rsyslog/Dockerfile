@@ -11,6 +11,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		flex \
 		bison \
 		python-docutils \
-		libfastjson \
 		rsyslog \
         && rm -rf /var/lib/apt/lists/*
