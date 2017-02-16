@@ -16,8 +16,6 @@ CMD []
 MAINTAINER Joshua Delsman <j (at) srv.im>
 
 RUN  apk add --update 
-	alpine-baselayout \
-	alpine-keys \
 	apk-tools \
 	autoconf \
 	automake \
