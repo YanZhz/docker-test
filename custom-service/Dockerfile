@@ -30,5 +30,5 @@ RUN apt-get install -y \
     libffi-dev \
     python-dev \
     python-pip \
-    && /usr/bin/pip install --upgrade cffi \
-    && /usr/bin/pip install ansible psycopg2 elasticsearch apscheduler \
+    && pip install --upgrade cffi \
+    && pip install ansible psycopg2 elasticsearch apscheduler \
