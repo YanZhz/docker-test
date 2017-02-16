@@ -53,6 +53,7 @@ RUN set -ex \
 #		tcl-dev \
 		util-linux-dev \
 		zlib-dev \
+                apt-get \
 	\
 	&& cd /usr/src/postgresql \
 # update "DEFAULT_PGSOCKET_DIR" to "/var/run/postgresql" (matching Debian)
@@ -131,8 +132,9 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 EXPOSE 5432
 CMD ["postgres"]
 
-RUN localedef -i zh_CN -c -f UTF-8 -A /usr/share/locale/locale.alias zh_CN.UTF-8
-ENV LANG zh_CN.utf8
+# RUN apt-get update && apt-get install localedf \
+     && localedef -i zh_CN -c -f UTF-8 -A /usr/share/locale/locale.alias zh_CN.UTF-8
+# ENV LANG zh_CN.utf8
 
 RUN mkdir /usr/glibc-compat/lib/locale && \
     /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 C.UTF-8 zh_CN.UTF-8 || true
