@@ -12,7 +12,7 @@ RUN { \
 RUN  apk update && apk add --update \
         build-base \
         pkgconfig \
-	&& export PKG_CONFIG_PATH=/usr/lib/pkgconfig
+	&& export PKG_CONFIG_PATH=/usr/lib/pkgconfig \
         && apk add --update \
         libestr \
 	rsyslog \
