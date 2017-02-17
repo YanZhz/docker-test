@@ -9,13 +9,18 @@ RUN { \
                 echo 'http://mirrors.ustc.edu.cn/alpine/edge/testing'; \
         } >> /etc/apk/repositories
 
-RUN  apk update && apk add --update \
+RUN apk update && apk add --update \
         build-base \
+	autoconf \
+	automake \
+	libtool \
         pkgconfig \
 	&& export PKG_CONFIG_PATH=/usr/lib/pkgconfig \
         && apk add --update \
         libestr \
 	rsyslog \
+	flex \
+	liblogging-dev \
 	libestr-dev \
 	libfastjson \
 	libfastjson-dev \
@@ -30,7 +35,19 @@ RUN  apk update && apk add --update \
         git \
 	&& rm -rf /var/cache/apk/*
 
-RUN git clone https://github.com/rsyslog/rsyslog.git 
+RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
+	&& cd /root/rsyslog/ \
+	&& ./configure --enable-omkafka \
+	&& make clean \
+	&& make \
+	&& make install
+	&& apk del autoconf \
+	git \
+	automake \
+	libtool \
+	build-base \
+	pkgconfig
+
 
 EXPOSE 514/udp
 
