@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:wheezy
 
 RUN apt-key adv --recv-keys --keyserver keys.gnupg.net AEF0CF8E
 
