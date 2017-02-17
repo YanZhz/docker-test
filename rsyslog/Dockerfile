@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 python-docutils \
                 libfastjson \
                 rsyslog \
-	&& apt-get upgrade -y
+	&& apt-get upgrade -y \
         && rm -rf /var/lib/apt/lists/*
 
 
