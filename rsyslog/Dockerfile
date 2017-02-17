@@ -1,10 +1,10 @@
 FROM debian:jessie
 
 RUN echo 'deb http://deb.debian.org/debian jessie main \
-	deb http://deb.debian.org/debian jessie-updates main \
-	deb http://security.debian.org jessie/updates main \
-	deb http://debian.adiscon.com/v8-stable wheezy/ \
-	deb-src http://debian.adiscon.com/v8-stable wheezy/' > /etc/apt/sources.list
+deb http://deb.debian.org/debian jessie-updates main \
+deb http://security.debian.org jessie/updates main \
+deb http://debian.adiscon.com/v8-stable wheezy/ \
+deb-src http://debian.adiscon.com/v8-stable wheezy/ ' > /etc/apt/sources.list
 
 RUN apt-get update && apt-get upgrade && apt-get install -y --no-install-recommends \
                 ca-certificates \
