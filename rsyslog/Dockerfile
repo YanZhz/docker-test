@@ -7,7 +7,7 @@ deb http://debian.adiscon.com/v8-stable wheezy/ \
 	deb-src http://debian.adiscon.com/v8-stable wheezy/ ' > /etc/apt/sources.list \
 
 RUN apt-get update && apt-get upgrade \
-	&& apt-get install rsyslog \
+	&& apt-get install -y rsyslog \
         && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 514/udp
