@@ -86,10 +86,3 @@ RUN set -e \
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
-RUN apk update && apk add --no-cache \
-        python2-dev \
-        py2-pip \
-        openssh \
-        bash \
-        && pip install -U ansible \
-        markupsafe 
