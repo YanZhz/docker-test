@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		flex \
 		bison \
 		python-docutils \
+                librdkafka-dev \
 		rsyslog \
         && rm -rf /var/lib/apt/lists/*
 
@@ -21,6 +22,5 @@ VOLUME [ "/var/log", "/etc/rsyslog.d" ]
 # for some reason, the apk comes built with a v5
 # config file. using this one for v8:
 COPY ./etc/rsyslog.conf /etc/rsyslog.conf
-COPY ./etc/omkafka.so /usr/lib/rsyslog/omkafka.so
 
 ENTRYPOINT [ "rsyslogd", "-n" ]
