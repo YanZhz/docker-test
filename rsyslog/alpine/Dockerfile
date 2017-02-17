@@ -27,6 +27,7 @@ RUN  apk update && apk add --update \
 	librdkafka-dev \
 	bison \
 	py-docutils \
+        rsyslog \
 	&& rm -rf /var/cache/apk/*
 
 EXPOSE 514/udp
