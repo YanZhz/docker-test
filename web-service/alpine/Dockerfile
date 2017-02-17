@@ -87,9 +87,9 @@ EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
 RUN apk update && apk add --no-cache \
-        python-dev \
-        python-pip \
-        ssh \
+        python2-dev \
+        py2-pip \
+        openssh \
         && pip install -U setuptools \
         && pip install pyyaml \
         && pip install -U ansible \
