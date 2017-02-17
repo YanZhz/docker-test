@@ -9,8 +9,24 @@ RUN { \
                 echo 'http://mirrors.ustc.edu.cn/alpine/edge/testing'; \
         } >> /etc/apk/repositories
 
-RUN  apk update && apk add --update 
+RUN  apk update && apk add --update \
+        build-base \
+        pkgconfig \
+	&& export PKG_CONFIG_PATH=/usr/lib/pkgconfig
+        && apk add --update \
+        libestr \
 	rsyslog \
+	libestr-dev \
+	libfastjson \
+	libfastjson-dev \
+	zlib \
+	zlib-dev \
+	util-linux-dev \
+	libgcrypt \
+	libgcrypt-dev \
+	librdkafka-dev \
+	bison \
+	py-docutils \
 	&& rm -rf /var/cache/apk/*
 
 EXPOSE 514/udp
