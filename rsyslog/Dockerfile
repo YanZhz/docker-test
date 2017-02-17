@@ -21,7 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 libfastjson \
                 rsyslog \
 	&& apt-get upgrade -y \
-        && rm -rf /var/lib/apt/lists/*
 
 
 EXPOSE 514/udp
