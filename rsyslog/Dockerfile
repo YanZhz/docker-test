@@ -5,21 +5,22 @@ RUN { \
                 echo 'deb-src http://debian.adiscon.com/v8-stable wheezy/'; \
         } > /etc/apt/sources.list.d/rsyslog.list 
 
-RUN apt-get update && apt-get upgrade 
-
-RUN apt-get install -y --no-install-recommends \
-	ca-certificates \
-        curl \
-	wget \
-	libtool \
-	pkg-config \
-	uuid-dev \
-	libgcrypt11-dev \
-	flex \
-	bison \
-	python-docutils \
-	rsyslog \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+                ca-certificates \
+                curl \
+                wget \
+                libtool \
+                pkg-config \
+                uuid-dev \
+                libgcrypt11-dev \
+                flex \
+                bison \
+                python-docutils \
+                libfastjson \
+                rsyslog \
+	&& apt-get upgrade -y
         && rm -rf /var/lib/apt/lists/*
+
 
 EXPOSE 514/udp
 
