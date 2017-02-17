@@ -27,8 +27,11 @@ RUN  apk update && apk add --update \
 	librdkafka-dev \
 	bison \
 	py-docutils \
-        rsyslog \
+        git \
 	&& rm -rf /var/cache/apk/*
+
+RUN git clone https://github.com/rsyslog/rsyslog.git /root/
+	&& cd /root/rsyslog/ 
 
 EXPOSE 514/udp
 
