@@ -90,7 +90,6 @@ RUN apk update && apk add --no-cache \
         python2-dev \
         py2-pip \
         openssh \
-        && pip install -U setuptools \
-        && pip install pyyaml \
+        bash \
         && pip install -U ansible \
-        && pip install markupsafe \
+        markupsafe 
