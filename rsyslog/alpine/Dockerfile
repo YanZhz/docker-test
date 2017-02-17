@@ -30,8 +30,7 @@ RUN  apk update && apk add --update \
         git \
 	&& rm -rf /var/cache/apk/*
 
-RUN git clone https://github.com/rsyslog/rsyslog.git /root/ \
-	&& cd /root/rsyslog/ 
+RUN git clone https://github.com/rsyslog/rsyslog.git 
 
 EXPOSE 514/udp
 
