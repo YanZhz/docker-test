@@ -3,7 +3,7 @@ FROM debian:wheezy
 RUN { \
                 echo 'deb http://debian.adiscon.com/v8-stable wheezy/'; \
                 echo 'deb-src http://debian.adiscon.com/v8-stable wheezy/'; \
-        } > /etc/apt/sources.list.d/rsyslog.list \
+        } > /etc/apt/sources.list.d/rsyslog.list 
 
 RUN apt-get update && apt-get upgrade 
 
