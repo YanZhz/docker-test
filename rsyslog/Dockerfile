@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-RUN echo 'deb http://debian.adiscon.com/v8-stable wheezy/ \n \
+RUN echo 'deb http://debian.adiscon.com/v8-stable wheezy/ \
 	deb-src http://debian.adiscon.com/v8-stable wheezy/ ' > /etc/apt/sources.list \
 
 RUN apt-get update && apt-get upgrade \
