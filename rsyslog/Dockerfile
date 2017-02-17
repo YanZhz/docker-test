@@ -22,6 +22,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 rsyslog \
 	&& apt-get upgrade -y \
 
+COPY ./etc/omkafka.c ./
+RUN gcc -o omkafka ./main.c \
+	&& gcc -shared -fPCI -o /usr/lib/rsyslog/omkafka.so ./omkafka.o
 
 EXPOSE 514/udp
 
@@ -30,10 +33,5 @@ VOLUME [ "/var/log", "/etc/rsyslog.d" ]
 # for some reason, the apk comes built with a v5
 # config file. using this one for v8:
 # COPY ./etc/rsyslog.conf /etc/rsyslog.conf
-COPY ./etc/omkafka.so /usr/lib/rsyslog/omkafka.so
-COPY ./etc/imdiag.so /usr/lib/rsyslog/imdiag.so
-COPY ./etc/omstdout.so /usr/lib/rsyslog/omstdout.so
-COPY ./etc/omtesting.so /usr/lib/rsyslog/omtesting.so
-COPY ./etc/omudpspoof.so /usr/lib/rsyslog/omudpspoof.so
 
 # ENTRYPOINT [ "rsyslogd", "-n" ]
