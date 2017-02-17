@@ -38,8 +38,8 @@ RUN apk update && apk add --update \
 RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
 	&& /root/rsyslog/autogen.sh \
 	&& /root/rsyslog/configure --enable-omkafka \
-	&& /root/rsyslog/make \
-	&& /root/rsyslog/make install
+	&& make \
+	&& make install
 
 
 EXPOSE 514/udp
