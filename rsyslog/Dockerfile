@@ -1,5 +1,7 @@
 FROM debian:wheezy
 
+RUN apt-key adv --recv-keys --keyserver keys.gnupg.net AEF0CF8E
+
 RUN { \
                 echo 'deb http://debian.adiscon.com/v8-stable wheezy/'; \
                 echo 'deb-src http://debian.adiscon.com/v8-stable wheezy/'; \
