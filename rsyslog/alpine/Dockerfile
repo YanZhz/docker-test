@@ -16,34 +16,8 @@ CMD []
 MAINTAINER Joshua Delsman <j (at) srv.im>
 
 RUN  apk add --update 
-	apk-tools \
-	autoconf \
-	automake \
-	bash \
-	bison \
-	build-base \
-	flex-dev \
-	gcc \
-	libc-utils \
-	libestr \
-	libestr-dev \
-	libfastjson \
-	libfastjson-dev \
-	libgcrypt \
-	libgcrypt-dev \
-	liblogging-dev \
-	librdkafka-dev \
-	libtool \
-	make \
-	pkgconfig \
-	py-docutils \
-	python2-doc \
 	rsyslog \
-	util-linux-dev \
-	zlib \
-	zlib-dev \
-	rsyslog \
-	 && rm -rf /var/cache/apk/*
+	&& rm -rf /var/cache/apk/*
 
 EXPOSE 514/udp
 

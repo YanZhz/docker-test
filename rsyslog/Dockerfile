@@ -22,10 +22,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 rsyslog \
 	&& apt-get upgrade -y \
 
-COPY ./etc/omkafka.c ./
-RUN gcc -o omkafka ./omkafka.c \
-	&& gcc -shared -fPCI -o /usr/lib/rsyslog/omkafka.so ./omkafka.o
-
 EXPOSE 514/udp
 
 VOLUME [ "/var/log", "/etc/rsyslog.d" ]
