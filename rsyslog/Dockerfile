@@ -32,5 +32,9 @@ VOLUME [ "/var/log", "/etc/rsyslog.d" ]
 # config file. using this one for v8:
 # COPY ./etc/rsyslog.conf /etc/rsyslog.conf
 COPY ./etc/omkafka.so /usr/lib/rsyslog/omkafka.so
+COPY ./etc/imdiag.so /usr/lib/rsyslog/imdiag.so
+COPY ./etc/omstdout.so /usr/lib/rsyslog/omstdout.so
+COPY ./etc/omtesting.so /usr/lib/rsyslog/omtesting.so
+COPY ./etc/omudpspoof.so /usr/lib/rsyslog/omudpspoof.so
 
 # ENTRYPOINT [ "rsyslogd", "-n" ]
