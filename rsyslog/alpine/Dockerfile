@@ -39,7 +39,7 @@ RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
 	&& /root/rsyslog/autogen.sh \
 	&& /root/rsyslog/configure --enable-omkafka \
 	&& make \
-	&& make install
+	&& make install \
         && apk del autoconf \
         git \
         automake \
