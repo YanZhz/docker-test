@@ -1,18 +1,5 @@
 FROM debian:jessie
 
-
-# RUN apt-get update && apt-get upgrade && apt-get install -y --no-install-recommends \
-                ca-certificates \
-                curl \
-                wget \
-		libtool \
-		pkg-config \
-		uuid-dev \
-		libgcrypt11-dev \
-		flex \
-		bison \
-		python-docutils \
-
 RUN echo 'deb http://debian.adiscon.com/v8-stable wheezy/ \n \
 	deb-src http://debian.adiscon.com/v8-stable wheezy/ ' > /etc/apt/sources.list \
 
