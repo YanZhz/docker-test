@@ -36,6 +36,7 @@ RUN apk update && apk add --update \
 	&& rm -rf /var/cache/apk/*
 
 RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
+	&& /root/rsyslog/autogen.sh \
 	&& /root/rsyslog/configure --enable-omkafka \
 	&& /root/rsyslog/make clean \
 	&& /root/rsyslog/make \
