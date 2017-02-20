@@ -163,7 +163,6 @@ RUN set -e \
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
         python-dev \
         python-pip \
@@ -171,6 +170,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libffi-dev \
         libssl-dev \
         ssh \
+        && pip install -U setuptools \
+        && pip install pyyaml \
         && pip install -U ansible \
         && pip install markupsafe \
         && apt-get remove -y python-pip \
