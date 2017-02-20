@@ -128,6 +128,11 @@ RUN set -e \
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
+RUN { \
+                echo 'http://mirrors.ustc.edu.cn//alpine/v3.5/main'; \
+                echo 'http://mirrors.ustc.edu.cn/alpine/v3.5/community'; \
+                echo 'http://mirrors.ustc.edu.cn/alpine/edge/testing'; \
+        } > /etc/apk/repositories
 
 RUN apk update && apk add --no-cache \
         python2-dev \
