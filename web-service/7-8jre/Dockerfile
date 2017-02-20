@@ -163,7 +163,6 @@ RUN set -e \
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
         python-dev \
         python-pip \
@@ -178,5 +177,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get remove -y python-pip \
         && apt-get -y autoremove \
         && rm -rf /var/lib/apt/lists/* \
-	&& cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
