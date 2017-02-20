@@ -1,4 +1,10 @@
-FROM openjdk:8-jre-alpine
+# FROM openjdk:8-jre-alpine
+
+RUN { \
+                echo 'http://mirrors.ustc.edu.cn//alpine/v3.4/main'; \
+                echo 'http://mirrors.ustc.edu.cn/alpine/v3.4/community'; \
+                echo 'http://mirrors.ustc.edu.cn/alpine/edge/testing'; \
+        } >> /etc/apk/repositories
 
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
