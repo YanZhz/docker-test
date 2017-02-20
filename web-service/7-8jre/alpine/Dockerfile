@@ -137,4 +137,11 @@ RUN { \
 RUN apk update && apk upgrade && apk add --no-cache \
         python2-dev \
 	openssh \
-	ansible 
+	ansible \
+	tzdata
+
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+RUN apk del tzdata
+
+
