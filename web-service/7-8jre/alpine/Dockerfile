@@ -135,6 +135,7 @@ RUN { \
         } > /etc/apk/repositories
 
 RUN apk update && apk add --no-cache \
+	linux-headers \
         python2-dev \
         py2-pip \
         gcc \
