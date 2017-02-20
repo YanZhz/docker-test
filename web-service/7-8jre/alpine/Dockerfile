@@ -134,11 +134,13 @@ RUN { \
                 echo 'http://mirrors.ustc.edu.cn/alpine/edge/testing'; \
         } > /etc/apk/repositories
 
-RUN apk update && apk add --no-cache \
-	linux-headers \
+RUN apk update && apk upgrade && apk add --no-cache \
+	py-configobj \
+	libusb \
         python2-dev \
         py2-pip \
         gcc \
+	linux-headers \
         libffi-dev \
 	libressl-dev \
 	openssh \
