@@ -140,6 +140,6 @@ RUN apk update && apk upgrade && apk add --no-cache \
 	ansible \
 	tzdata
 
-RUN apk RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN apk cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 RUN apk del tzdata
