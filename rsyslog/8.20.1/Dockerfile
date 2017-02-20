@@ -25,8 +25,8 @@ RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
         && /root/rsyslog/configure --enable-omkafka \
         && make \
         && make install \
-        && apt-get remove -y autoconf \
-        git 
+        && apt-get clean && rm -rf /var/lib/apt/lists/* 
+	
 
 EXPOSE 514/udp
 
