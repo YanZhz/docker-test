@@ -1,11 +1,10 @@
-FROM debian:wheezy
+FROM debian:jessie
 
-RUN apt-key adv --recv-keys --keyserver keys.gnupg.net AEF0CF8E
-
-RUN { \
-                echo 'deb http://debian.adiscon.com/v8-stable wheezy/'; \
-                echo 'deb-src http://debian.adiscon.com/v8-stable wheezy/'; \
-        } > /etc/apt/sources.list.d/rsyslog.list 
+#RUN apt-key adv --recv-keys --keyserver keys.gnupg.net AEF0CF8E
+#RUN { \
+#                echo 'deb http://debian.adiscon.com/v8-stable wheezy/'; \
+#                echo 'deb-src http://debian.adiscon.com/v8-stable wheezy/'; \
+#        } > /etc/apt/sources.list.d/rsyslog.list 
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
                 ca-certificates \
@@ -19,8 +18,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 bison \
                 python-docutils \
                 libfastjson \
-                rsyslog \
+                git \
 	&& apt-get upgrade -y \
+
+RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
+        && /root/rsyslog/autogen.sh \
+        && /root/rsyslog/configure --enable-omkafka \
+        && make \
+        && make install \
+        && apt-get remove -y autoconf \
+        git \
+        automake \
+        libtool \
+        build-base \
+        pkgconfig
 
 EXPOSE 514/udp
 
@@ -30,4 +41,4 @@ VOLUME [ "/var/log", "/etc/rsyslog.d" ]
 # config file. using this one for v8:
 # COPY ./etc/rsyslog.conf /etc/rsyslog.conf
 
-# ENTRYPOINT [ "rsyslogd", "-n" ]
+ENTRYPOINT [ "rsyslogd", "-n" ]
