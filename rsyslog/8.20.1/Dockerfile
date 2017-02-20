@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
                 bison \
                 python-docutils \
                 git \
-	&& apt-get upgrade -y \
+	&& apt-get upgrade -y 
 
 RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
         && /root/rsyslog/autogen.sh \
@@ -26,11 +26,7 @@ RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
         && make \
         && make install \
         && apt-get remove -y autoconf \
-        git \
-        automake \
-        libtool \
-        build-base \
-        pkgconfig
+        git 
 
 EXPOSE 514/udp
 
