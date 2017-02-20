@@ -138,12 +138,12 @@ RUN apk update && apk upgrade && apk add --no-cache \
 	py-configobj \
 	libusb \
         python2-dev \
-        py2-pip \
         gcc \
 	linux-headers \
         libffi-dev \
 	libressl-dev \
 	openssh \
+        py2-pip \
         && pip install -U ansible \
         && pip install markupsafe \
         && apk del py2-pip 
