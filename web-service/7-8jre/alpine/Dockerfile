@@ -129,11 +129,15 @@ EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
 
-RUN apk update && apk add --no-cache \
-        python-dev \
-        python-pip \
+RUN apk update && apk add --no-cache --virtual \
+        python2-dev \
+        py2-pip \
+        gcc \
+        libffi-dev \
+	libressl-dev \
+	openssh \
+        && pip install -U setuptools \
+        && pip install pyyaml \
         && pip install -U ansible \
         && pip install markupsafe \
-        && apt-get remove python-pip \
-        && apt-get autoremove
-        && apk del python-pip
+        && apk del py2-pip 
