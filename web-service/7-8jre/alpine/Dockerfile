@@ -1,16 +1,31 @@
-# FROM openjdk:8-jre-alpine
+# FROM openjdk:8-jre
 #
 # NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
 #
 # PLEASE DO NOT EDIT IT DIRECTLY.
 #
 
-FROM alpine:3.4
+# FROM buildpack-deps:jessie-curl
+FROM debian:jessie
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		ca-certificates \
+		curl \
+		wget \
+	&& rm -rf /var/lib/apt/lists/*
 
 # A few problems with compiling Java from source:
 #  1. Oracle.  Licensing prevents us from redistributing the official JDK.
 #  2. Compiling OpenJDK also requires the JDK to be installed, and it gets
 #       really hairy.
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		bzip2 \
+		unzip \
+		xz-utils \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list
 
 # Default to UTF-8 file.encoding
 ENV LANG C.UTF-8
@@ -24,22 +39,30 @@ RUN { \
 		echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
 	} > /usr/local/bin/docker-java-home \
 	&& chmod +x /usr/local/bin/docker-java-home
-ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk/jre
-ENV PATH $PATH:/usr/lib/jvm/java-1.8-openjdk/jre/bin:/usr/lib/jvm/java-1.8-openjdk/bin
 
-ENV JAVA_VERSION 8u111
-ENV JAVA_ALPINE_VERSION 8.111.14-r0
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre
+
+ENV JAVA_VERSION 8u121
+ENV JAVA_DEBIAN_VERSION 8u121-b13-1~bpo8+1
+
+# see https://bugs.debian.org/775775
+# and https://github.com/docker-library/java/issues/19#issuecomment-70546872
+ENV CA_CERTIFICATES_JAVA_VERSION 20161107~bpo8+1
 
 RUN set -x \
-	&& apk add --no-cache \
-		openjdk8-jre="$JAVA_ALPINE_VERSION" \
+	&& apt-get update \
+	&& apt-get install -y \
+		openjdk-8-jre-headless="$JAVA_DEBIAN_VERSION" \
+		ca-certificates-java="$CA_CERTIFICATES_JAVA_VERSION" \
+	&& rm -rf /var/lib/apt/lists/* \
 	&& [ "$JAVA_HOME" = "$(docker-java-home)" ]
 
-RUN { \
-                echo 'http://mirrors.ustc.edu.cn//alpine/v3.4/main'; \
-                echo 'http://mirrors.ustc.edu.cn/alpine/v3.4/community'; \
-                echo 'http://mirrors.ustc.edu.cn/alpine/edge/testing'; \
-        } >> /etc/apk/repositories
+# see CA_CERTIFICATES_JAVA_VERSION notes above
+RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
+
+# If you're reading this and have any feedback on how this image could be
+#   improved, please open an issue or a pull request so we can discuss it!
+
 
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
@@ -50,7 +73,31 @@ WORKDIR $CATALINA_HOME
 ENV TOMCAT_NATIVE_LIBDIR $CATALINA_HOME/native-jni-lib
 ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 
-RUN apk add --no-cache gnupg
+# runtime dependencies for Tomcat Native Libraries
+# Tomcat Native 1.2+ requires a newer version of OpenSSL than debian:jessie has available
+# > checking OpenSSL library version >= 1.0.2...
+# > configure: error: Your version of OpenSSL is not compatible with this version of tcnative
+# see http://tomcat.10.x6.nabble.com/VOTE-Release-Apache-Tomcat-8-0-32-tp5046007p5046024.html (and following discussion)
+# and https://github.com/docker-library/tomcat/pull/31
+ENV OPENSSL_VERSION 1.1.0d-2
+RUN { \
+		echo 'deb http://deb.debian.org/debian stretch main'; \
+	} > /etc/apt/sources.list.d/stretch.list \
+	&& { \
+# add a negative "Pin-Priority" so that we never ever get packages from stretch unless we explicitly request them
+		echo 'Package: *'; \
+		echo 'Pin: release n=stretch'; \
+		echo 'Pin-Priority: -10'; \
+		echo; \
+# except OpenSSL, which is the reason we're here
+		echo 'Package: openssl libssl*'; \
+		echo "Pin: version $OPENSSL_VERSION"; \
+		echo 'Pin-Priority: 990'; \
+	} > /etc/apt/preferences.d/stretch-openssl
+RUN apt-get update && apt-get install -y --no-install-recommends \
+		libapr1 \
+		openssl="$OPENSSL_VERSION" \
+	&& rm -rf /var/lib/apt/lists/*
 
 # see https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/KEYS
 # see also "update.sh" (https://github.com/docker-library/tomcat/blob/master/update.sh)
@@ -70,10 +117,6 @@ ENV TOMCAT_ASC_URL https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOM
 
 RUN set -x \
 	\
-	&& apk add --no-cache --virtual .fetch-deps \
-		ca-certificates \
-		tar \
-		openssl \
 	&& wget -O tomcat.tar.gz "$TOMCAT_TGZ_URL" \
 	&& wget -O tomcat.tar.gz.asc "$TOMCAT_ASC_URL" \
 	&& gpg --batch --verify tomcat.tar.gz.asc tomcat.tar.gz \
@@ -83,35 +126,27 @@ RUN set -x \
 	\
 	&& nativeBuildDir="$(mktemp -d)" \
 	&& tar -xvf bin/tomcat-native.tar.gz -C "$nativeBuildDir" --strip-components=1 \
-	&& apk add --no-cache --virtual .native-build-deps \
-		apr-dev \
+	&& nativeBuildDeps=" \
 		gcc \
-		libc-dev \
+		libapr1-dev \
+		libssl-dev \
 		make \
-		"openjdk${JAVA_VERSION%%[-~bu]*}"="$JAVA_ALPINE_VERSION" \
-		openssl-dev \
+		openjdk-${JAVA_VERSION%%[-~bu]*}-jdk=$JAVA_DEBIAN_VERSION \
+	" \
+	&& apt-get update && apt-get install -y --no-install-recommends $nativeBuildDeps && rm -rf /var/lib/apt/lists/* \
 	&& ( \
 		export CATALINA_HOME="$PWD" \
 		&& cd "$nativeBuildDir/native" \
 		&& ./configure \
 			--libdir="$TOMCAT_NATIVE_LIBDIR" \
 			--prefix="$CATALINA_HOME" \
-
 			--with-apr="$(which apr-1-config)" \
 			--with-java-home="$(docker-java-home)" \
 			--with-ssl=yes \
-		&& make -j$(getconf _NPROCESSORS_ONLN) \
+		&& make -j$(nproc) \
 		&& make install \
 	) \
-	&& runDeps="$( \
-		scanelf --needed --nobanner --recursive "$TOMCAT_NATIVE_LIBDIR" \
-			| awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
-			| sort -u \
-			| xargs -r apk info --installed \
-			| sort -u \
-	)" \
-	&& apk add --virtual .tomcat-native-rundeps $runDeps \
-	&& apk del .fetch-deps .native-build-deps \
+	&& apt-get purge -y --auto-remove $nativeBuildDeps \
 	&& rm -rf "$nativeBuildDir" \
 	&& rm bin/tomcat-native.tar.gz
 
@@ -128,20 +163,19 @@ RUN set -e \
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
 
-RUN { \
-                echo 'http://mirrors.ustc.edu.cn//alpine/v3.5/main'; \
-                echo 'http://mirrors.ustc.edu.cn/alpine/v3.5/community'; \
-                echo 'http://mirrors.ustc.edu.cn/alpine/edge/testing'; \
-        } > /etc/apk/repositories
-
-RUN apk update && apk upgrade && apk add --no-cache \
-        python2-dev \
-	openssh \
-	ansible \
-	tzdata
-
-RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-
-RUN apk del tzdata
-
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        python-dev \
+        python-pip \
+        gcc \
+        libffi-dev \
+        libssl-dev \
+        ssh \
+        && pip install -U setuptools \
+        && pip install pyyaml \
+        && pip install -U ansible \
+        && pip install markupsafe \
+        && apt-get remove -y python-pip \
+        && apt-get -y autoremove \
+        && rm -rf /var/lib/apt/lists/*
+	&& cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
