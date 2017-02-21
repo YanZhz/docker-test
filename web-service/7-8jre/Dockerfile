@@ -1,4 +1,3 @@
-# FROM openjdk:8-jre
 #
 # NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
 #
@@ -64,6 +63,8 @@ RUN /var/lib/dpkg/info/ca-certificates-java.postinst configure
 # If you're reading this and have any feedback on how this image could be
 #   improved, please open an issue or a pull request so we can discuss it!
 
+
+# FROM openjdk:8-jre
 ENV CATALINA_HOME /usr/local/tomcat
 ENV PATH $CATALINA_HOME/bin:$PATH
 RUN mkdir -p "$CATALINA_HOME"
@@ -79,7 +80,7 @@ ENV LD_LIBRARY_PATH ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$TOMCAT_NATIVE_LIBDIR
 # > configure: error: Your version of OpenSSL is not compatible with this version of tcnative
 # see http://tomcat.10.x6.nabble.com/VOTE-Release-Apache-Tomcat-8-0-32-tp5046007p5046024.html (and following discussion)
 # and https://github.com/docker-library/tomcat/pull/31
-ENV OPENSSL_VERSION 1.1.0d-2
+ENV OPENSSL_VERSION 1.1.0e-1
 RUN { \
 		echo 'deb http://deb.debian.org/debian stretch main'; \
 	} > /etc/apt/sources.list.d/stretch.list \
@@ -162,21 +163,3 @@ RUN set -e \
 
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        python-dev \
-        python-pip \
-        gcc \
-        libffi-dev \
-        libssl-dev \
-        ssh \
-        && pip install -U setuptools \
-        && pip install pyyaml \
-        && pip install -U ansible \
-        && pip install markupsafe \
-        && apt-get remove -y python-pip \
-        && apt-get -y autoremove \
-        && rm -rf /var/lib/apt/lists/* \
-
-RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-
