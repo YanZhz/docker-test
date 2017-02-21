@@ -177,6 +177,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && pip install markupsafe \
         && apt-get remove -y python-pip \
         && apt-get -y autoremove \
-        && rm -rf /var/lib/apt/lists/* \
+        && rm -rf /var/lib/apt/lists/* 
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
