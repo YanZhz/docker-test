@@ -179,4 +179,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get -y autoremove \
         && rm -rf /var/lib/apt/lists/* \
 
-RUN cp /usr/share/zoneinfo/posix/Asia/Shanghai /etc/localtime
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
