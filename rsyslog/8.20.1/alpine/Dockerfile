@@ -35,9 +35,9 @@ RUN apk update && apk add --update \
         git \
 	&& rm -rf /var/cache/apk/*
 
-RUN git clone https://github.com/rsyslog/rsyslog.git /root/rsyslog/ \
+RUN git clone -b v8.26.0 https://github.com/rsyslog/rsyslog /root/rsyslog/ \
 	&& /root/rsyslog/autogen.sh \
-	&& /root/rsyslog/configure --enable-omkafka \
+	&& /root/rsyslog/configure --enable-omkafka --enable-omudpspoof \
 	&& make \
 	&& make install \
         && apk del autoconf \
